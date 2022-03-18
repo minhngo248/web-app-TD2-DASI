@@ -1,0 +1,3 @@
+com\mycompany\mavenwebproject\ihm\web\ActionServlet.class
+com\mycompany\mavenwebproject\ihm\web\serialisation\Serialisation.class
+com\mycompany\mavenwebproject\ihm\web\action\Action.class
