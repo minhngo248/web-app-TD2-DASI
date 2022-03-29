@@ -8,8 +8,6 @@ package com.mycompany.mavenwebproject.ihm.web.serialisation;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.mycompany.tdmaven.metier.modele.Client;
-import com.mycompany.tdmaven.metier.service.Service;
 import java.io.IOException;
 import java.io.PrintWriter;
 //import javax.json.JsonObject;
@@ -27,13 +25,23 @@ public class ProfilClientSerialisation extends Serialisation {
             throws IOException {
         JsonObject jsonClient = new JsonObject(); //Creation un objet Json pour un client
         
-        String mail = request.getParameter("mail");
-        String mdp = request.getParameter("mdp");
-        Service service = new Service();
-        Client client = service.authentifierClient(mail, mdp);
-        jsonClient.addProperty("id", client.getId());
+        //Lecture des Attributs de la requête (stockés par Action)
+        Object connexion = request.getAttribute("connexion");
+        Object id = request.getAttribute("id");
+        Object nom = request.getAttribute("nom");
+        Object prenom = request.getAttribute("prenom");
+        Object mail = request.getAttribute("mail");
         
-        PrintWriter out = this.getWriter(response);
+        //Ajouter des propriétés au objet jsonClient
+        jsonClient.addProperty("connexion", connexion.toString());
+        jsonClient.addProperty("id", id.toString());
+        jsonClient.addProperty("nom", nom.toString());
+        jsonClient.addProperty("prenom", prenom.toString());
+        jsonClient.addProperty("mail", mail.toString());
+        
+        //out.println("<p>" + mail + "</p><br/>");
+        //Formattage de la structure de données Json
+        PrintWriter out = response.getWriter();
         Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
         gson.toJson(jsonClient, out);
         out.close();

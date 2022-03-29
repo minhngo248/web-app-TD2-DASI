@@ -15,13 +15,24 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class AuthentifierClientAction extends Action { //Heritage de la classe abstracte Action
 
+    /**
+     *
+     * @param request 
+     */
+
     @Override
     public void executer(HttpServletRequest request) {
         String mail = request.getParameter("mail");
         String mdp = request.getParameter("mdp");
         Service service = new Service();
         Client client = service.authentifierClient(mail, mdp);
-
-        request.setAttribute("nom", client.getNom());
+        
+        if (client != null) {
+            request.setAttribute("connexion", "true");
+            request.setAttribute("id", client.getId());
+            request.setAttribute("nom", client.getNom());
+            request.setAttribute("prenom", client.getPrenom());
+            request.setAttribute("mail", mail);
+        }
     }
 }
